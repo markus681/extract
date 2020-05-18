@@ -24,7 +24,7 @@ then
 			read passwd
 			for arc in *.rar
 			do
-			unrar x -p$passwd "$arc"
+			unrar x p$passwd "$arc"
 			done
 		fi
 
@@ -67,31 +67,31 @@ then
 		        then
 			        echo "Enter Passwort"
 			        read passwd
-	                for arc in *.part1.rar
-	                do
-	                unrar x -p$passwd "$arc"
-	                done
+	                	for arc in *.part1.rar
+	                	do
+	                	unrar x p$passwd "$arc"
+	                	done
 		        fi
 
 		        if [ "$wformat" = "2" ]
 		        then
 			        echo "Enter Passwort"
 			        read passwd
-	                for arc in *.part01.rar
-	                do
-	                unrar x -p$passwd "$arc"
-	                done
+	                	for arc in *.part01.rar
+	               		do
+	                	unrar x p$passwd "$arc"
+	                	done
 		        fi
 	
-				if [ "$wformat" = "3" ]
+			if [ "$wformat" = "3" ]
 		        then
 			        echo "Enter Passwort"
 			        read passwd
-	                for arc in *.part001.rar
-	                do
-	                unrar x -p$passwd "$arc"
-	                done
-			    fi
+	                	for arc in *.part001.rar
+	                	do
+	                	unrar x p$passwd "$arc"
+	                	done
+			fi
 		fi
 fi
 
@@ -154,34 +154,34 @@ then
 		    echo "Welches Format [part1.rar (1), part01.rar (2), part001.rar (3)]"
 		    read -n 1 wformat
 
-			    if [ "$wformat" = "1" ]
-			    then
-			        echo "Enter Passwort"
-			        read passwd
-		            for arc in *.part1.rar
-			        do
-			        7z x -p$passwd "$arc"
-			        done
+			    	if [ "$wformat" = "1" ]
+			    	then
+			    		echo "Enter Passwort"
+			        	read passwd
+		            		for arc in *.part1.rar
+			        	do
+			        	7z x -p$passwd "$arc"
+			        	done
 				fi
 
 				if [ "$wformat" = "2" ]
 				then
-				    echo "Enter Passwort"
-				    read passwd
-			        for arc in *.part01.rar
-			        do
-			        7z x -p$passwd "$arc"
-			        done
+				    	echo "Enter Passwort"
+				    	read passwd
+			        	for arc in *.part01.rar
+			        	do
+			        	7z x -p$passwd "$arc"
+			        	done
 				fi
 
 				if [ "$wformat" = "3" ]
-			    then
-				    echo "Enter Passwort"
-				    read passwd
-	                for arc in *.part001.rar
-	                do
-	               7z x -p$passwd "$arc"
-	               done
+			    	then
+				    	echo "Enter Passwort"
+				    	read passwd
+	                		for arc in *.part001.rar
+	                		do
+	               			7z x -p$passwd "$arc"
+	               			done
 				fi
 		fi
 fi
