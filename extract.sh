@@ -1,187 +1,107 @@
 #!/bin/bash
 # Dateien Entpacken
 
-echo "Unrar (1), P7zip (2)"
-read -n 1 prog
-
-if [ "$prog" = "1" ]
-then
-
-	echo "Normal entpacken (1), Normal mit Passwort entpacken (2), Multiarchive entpacken (3), Multiarchive mit Passwort entpacken (4)"
-	read -n 1 extract
-
-		if [ "$extract" = "1" ]
-		then
-			for arc in *.rar
-			do
-			unrar x "$arc"
-			done
-		fi
-
-		if [ "$extract" = "2" ]
-		then
-			echo "Enter Passwort"
-			read passwd
-			for arc in *.rar
-			do
-			unrar x p$passwd "$arc"
-			done
-		fi
-
-		if [ "$extract" = "3" ]
-		then
-			echo "Welches Format [part1.rar (1), part01.rar (2), part001.rar (3)]"
-			read -n 1 wformat
-
-				if [ "$wformat" = "1" ]
-				then
-					for arc in *.part1.rar
-					do
-					unrar x "$arc"
-					done
-				fi
-
-				if [ "$wformat" = "2" ]
-				then
-					for arc in *.part01.rar
-					do
-					unrar x "$arc"
-					done
-				fi
-
-				if [ "$wformat" = "3" ]
-				then
-					for arc in *.part001.rar
-					do
-					unrar x "$arc"
-					done
-				fi
-		fi
-
-		if [ "$extract" = "4" ]
-		then
-		    echo "Welches Format [part1.rar (1), part01.rar (2), part001.rar (3)]"
-		    read -n 1 wformat
-
-		        if [ "$wformat" = "1" ]
-		        then
-			        echo "Enter Passwort"
-			        read passwd
-	                	for arc in *.part1.rar
-	                	do
-	                	unrar x p$passwd "$arc"
-	                	done
-		        fi
-
-		        if [ "$wformat" = "2" ]
-		        then
-			        echo "Enter Passwort"
-			        read passwd
-	                	for arc in *.part01.rar
-	               		do
-	                	unrar x p$passwd "$arc"
-	                	done
-		        fi
-	
-			if [ "$wformat" = "3" ]
-		        then
-			        echo "Enter Passwort"
-			        read passwd
-	                	for arc in *.part001.rar
-	                	do
-	                	unrar x p$passwd "$arc"
-	                	done
-			fi
-		fi
-fi
-
-if [ "$prog" = "2" ]
-then
-
-	echo "Normal entpacken (1), Normal mit Passwort entpacken (2), Multiarchive entpacken (3), Multiarchive mit Passwort entpacken (4)"
-	read -n 1 extract
-
-		if [ "$extract" = "1" ]
-		then
-			for arc in *.rar
-			do
-			7z x "$arc"
-			done
-		fi
-	
-		if [ "$extract" = "2" ]
-		then
-			echo "Enter Passwort"
-			read passwd
-			for arc in *.rar
-			do
-			7z x -p$passwd "$arc"
-			done
-		fi
-
-		if [ "$extract" = "3" ]
-		then
-			echo "Welches Format [part1.rar (1), part01.rar (2), part001.rar (3)]"
-			read -n 1 wformat
-
-				if [ "$wformat" = "1" ]
-				then
-					for arc in *.part1.rar
-					do
-					7z x "$arc"
-					done
-				fi
-
-				if [ "$wformat" = "2" ]
-				then
-					for arc in *.part01.rar
-					do
-					7z x "$arc"
-					done
-				fi
-
-				if [ "$wformat" = "3" ]
-				then
-					for arc in *.part001.rar
-					do
-					7z x "$arc"
-					done
-				fi
-		fi
-
-		if [ "$extract" = "4" ]
-		then
-		    echo "Welches Format [part1.rar (1), part01.rar (2), part001.rar (3)]"
-		    read -n 1 wformat
-
-			    	if [ "$wformat" = "1" ]
-			    	then
-			    		echo "Enter Passwort"
-			        	read passwd
-		            		for arc in *.part1.rar
-			        	do
-			        	7z x -p$passwd "$arc"
-			        	done
-				fi
-
-				if [ "$wformat" = "2" ]
-				then
-				    	echo "Enter Passwort"
-				    	read passwd
-			        	for arc in *.part01.rar
-			        	do
-			        	7z x -p$passwd "$arc"
-			        	done
-				fi
-
-				if [ "$wformat" = "3" ]
-			    	then
-				    	echo "Enter Passwort"
-				    	read passwd
-	                		for arc in *.part001.rar
-	                		do
-	               			7z x -p$passwd "$arc"
-	               			done
-				fi
-		fi
-fi
+PS3='Mit welchem Programm entpacken: '
+prog=("Unrar" "P7zip" "Ende")
+select pro in "${prog[@]}"
+do
+	case $pro in
+		"Unrar")
+		PS3='Welches Format soll entpackt werden: '
+		optf=(".rar" ".zip" ".tar" "Enter Format" "Ende")
+		select ext in "${optf[@]}"
+		do
+			case $ext in
+				".rar")
+				PS3='Was soll entpackt werden: '
+				optw=("Normal entpacken" "Normal mit PW entpacken" "Multiarchive entpacken" "Multiarchive mit PW entpacken" "Ende")
+				select form in "${optw[@]}"
+				do
+					case $form in
+						"Normal entpacken")
+						for arc in *.rar
+						do
+						unrar x "$arc"
+						done
+						;;
+						
+						"Normal mit PW entpacken")
+						echo "Passwort eingeben: "
+						read passwd
+						for arc in *.rar
+						do
+						unrar x p$passwd "$arc"
+						done
+						;;
+						
+						"Multiarchive entpacken"
+						PS3='Welches Multiarchive: '
+						marc=("part1.rar" "part01.rar" "part001.rar" "Ende")
+						select part in "${marc[@]}"
+						do
+							case $part in
+								"part1.rar")
+								for arc in *.part1.rar
+								do
+								unrar x "$arc"
+								done
+								;;
+								
+								"part01.rar")
+								for arc in *.part01.rar
+								do
+								unrar x "$arc"
+								done
+								;;
+								
+								"part001.rar")
+								for arc in *.part001.rar
+								do
+								unrar x "$arc"
+								done
+								;;
+								
+								"Ende")
+								break
+								;;
+								
+							esac
+						done
+						
+						"Multiarchive mit PW entpacken")
+						echo "Passwort eingeben: "
+						read passwd
+						PS3='Welches Multiarchive: '
+						marc=("part1.rar" "part01.rar" "part001.rar" "Ende")
+						select part in "${marc[@]}"
+						do
+							case $part in
+								"part1.rar")
+								for arc in *.part1.rar
+								do
+								unrar x $passwd "$arc"
+								done
+								;;
+								
+								"part01.rar")
+								for arc in *.part01.rar
+								do
+								unrar x $passwd "$arc"
+								done
+								;;
+								
+								"part001.rar")
+								for arc in *.part001.rar
+								do
+								unrar x $passwd "$arc"
+								done
+								;;
+								
+								"Ende")
+								break
+								;;
+								
+							esac
+						done
+					esac
+				done
